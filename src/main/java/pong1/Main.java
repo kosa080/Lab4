@@ -23,6 +23,7 @@ public class Pong1 extends Application {
     private static final double ARENAX2 = ARENAX1 + ARENAWIDTH;
     private static final double ARENAY2 = ARENAY1 + ARENAHEIGHT;
     private static final double R = 10;
+    private double x = ARENAX1+ARENAWIDTH/2;
 
     @Override
     public void start(Stage stage) {
@@ -37,11 +38,15 @@ public class Pong1 extends Application {
         stage.setScene(new Scene(new StackPane(canvas)));
         stage.show();
 
+        t.play();
+    }
+
+    private void run(GraphicsContext gc) {
         gc.setFill(Color.BLACK);
         gc.fillRect(ARENAX1, ARENAY1, ARENAWIDTH, ARENAHEIGHT);
 
         gc.setFill(Color.WHITESMOKE);
-        gc.fillOval(ARENAX1+ARENAWIDTH/2,ARENAY1+ARENAHEIGHT/2,2*R,2*R);
+        gc.fillOval(x += 5, ARENAY1+ARENAHEIGHT/2,2*R, 2*R);
     }
 
     public static void main(String[] args) {
