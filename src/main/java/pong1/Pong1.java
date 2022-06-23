@@ -45,7 +45,7 @@ public class Pong1 extends Application {
         t.play();
     }
 
-    private void initKula() {
+    private void initKule() {
         Random lott = new Random();
         for (int i = 0; i < LUCZBAKULEK; i++)
             kulki[i] = new Kulka(
