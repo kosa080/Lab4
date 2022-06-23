@@ -5,12 +5,12 @@ import javafx.scene.paint.Color;
 
 public class Kulka {
     private static final double R = 10;
-    private double ySpeed;
-    private double xSpeed;
-    private double xPos;
-    private double yPos;
+    protected double ySpeed;
+    protected double xSpeed;
+    protected double xPos;
+    protected double yPos;
 
-    private Color color;
+    protected Color color;
 
     public Color getColor(){
         return color;
@@ -37,13 +37,24 @@ public class Kulka {
          }
      }
 
+     @Override
      public void draw(GraphicsContext gc){
          gc.setFill(color);
-         gc.fillOval(xPos - R, yPos - R, 2*R, 2*R);
+         gc.fillOval(xPos - rx, yPos - ry, 2*rx, 2*ry);
+         gc.restore();
      }
 
      public void update(){
          xPos += xSpeed;
          yPos += ySpeed;
      }
+
+    private double rx;
+    private double ry;
+
+    public Rugby(double xPos, double yPos, double xSpeed, double ySpeed, double rx, double ry) {
+        super(xPos, yPos, xSpeed, ySpeed);
+        this.rx = rx;
+        this.ry = ry;
+    }
 }

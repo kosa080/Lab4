@@ -47,12 +47,16 @@ public class Pong1 extends Application {
 
     private void initKule() {
         Random lott = new Random();
-        for (int i = 0; i < LUCZBAKULEK; i++)
-            kulki[i] = new Kulka(
+        for (int i = 0; i < LUCZBAKULEK; i++){
+            kulki[i] = new Rugby(
                     lott.nextDouble()*ARENAWIDTH+ARENAX1,
                     lott.nextDouble()*ARENAHEIGHT+ARENAY1,
-                    lott.nextDouble()*20,
-                    lott.nextDouble()*20);
+                    5+lott.nextDouble()*20,
+                    5+lott.nextDouble()*20,
+                    10,
+                    15
+                    );
+        }
     }
 
     private void run(GraphicsContext gc) {
