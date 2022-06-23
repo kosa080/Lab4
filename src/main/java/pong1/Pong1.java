@@ -26,11 +26,11 @@ public class Pong1 extends Application {
     private static final double ARENAY2 = ARENAY1 + ARENAHEIGHT;
     private static final double R = 10;
 
-    private double x = ARENAX1+ARENAWIDTH/2;
-    private double y = ARENAY1+ARENAHEIGHT/2;
-
-    private double vx = 5;
-    private double vy = 2;
+    private static final int LUCZBAKULEK = 10;
+    private double[] x = new double[LUCZBAKULEK];
+    private double[] y = new double[LUCZBAKULEK];
+    private double[] vx = new double[LUCZBAKULEK];
+    private double[] vy = new double[LUCZBAKULEK];
 
     @Override
     public void start(Stage stage) {
@@ -50,24 +50,31 @@ public class Pong1 extends Application {
 
     private void initKula() {
         Random lott = new Random();
-        x = lott.nextDouble()*ARENAWIDTH+ARENAX1;
-        y = lott.nextDouble()*ARENAHEIGHT+ARENAY1;
-        vx = 5+lott.nextDouble()*20;
-        vy = 5+lott.nextDouble()*20;
+        for (int i = 0; i < LUCZBAKULEK; i++) {
+            x[i] = lott.nextDouble() * ARENAWIDTH + ARENAX1;
+            y[i] = lott.nextDouble() * ARENAHEIGHT + ARENAY1;
+            vx[i] = 5 + lott.nextDouble() * 20;
+            vy[i] = 5 + lott.nextDouble() * 20;
+        }
     }
 
     private void run(GraphicsContext gc) {
         gc.setFill(Color.BLACK);
         gc.fillRect(ARENAX1, ARENAY1, ARENAWIDTH, ARENAHEIGHT);
+        for (int i = 0; i < LUCZBAKULEK; i++) {
+            if ((x[i] - R < +ARENAX1) || ((x[i] + R >= ARENAX2))) vx[i] = -vx[i];
+            if ((y[i] - R < +ARENAY1) || ((y[i] + R >= ARENAY2))) vy[i] = -vy[i];
+        }
 
-        if ((x - R <+ ARENAX1) || ((x + R >= ARENAX2))) vx = -vx;
-        if ((x - R <+ ARENAY1) || ((x + R >= ARENAY2))) vy = -vy;
+        for (int i = 0; i < LUCZBAKULEK; i++) {
+            x[i] += vx[i];
+            y[i] += vy[i];
+        }
 
-        x += vx;
-        y += vy;
-
-        gc.setFill(Color.WHITESMOKE);
-        gc.fillOval(x-R,y-R,2*R, 2*R);
+        for (int i = 0; i < LUCZBAKULEK; i++) {
+            gc.setFill(Color.WHITESMOKE);
+            gc.fillOval(x[i] - R, y[i] - R, 2 * R, 2 * R);
+        }
     }
 
     public static void main(String[] args) {
