@@ -27,10 +27,7 @@ public class Pong1 extends Application {
     private static final double R = 10;
 
     private static final int LUCZBAKULEK = 10;
-    private double[] x = new double[LUCZBAKULEK];
-    private double[] y = new double[LUCZBAKULEK];
-    private double[] vx = new double[LUCZBAKULEK];
-    private double[] vy = new double[LUCZBAKULEK];
+    private Kulka[] kulki = new Kulka[LUCZBAKULEK];
 
     @Override
     public void start(Stage stage) {
@@ -50,30 +47,21 @@ public class Pong1 extends Application {
 
     private void initKula() {
         Random lott = new Random();
-        for (int i = 0; i < LUCZBAKULEK; i++) {
-            x[i] = lott.nextDouble() * ARENAWIDTH + ARENAX1;
-            y[i] = lott.nextDouble() * ARENAHEIGHT + ARENAY1;
-            vx[i] = 5 + lott.nextDouble() * 20;
-            vy[i] = 5 + lott.nextDouble() * 20;
-        }
+        for (int i = 0; i < LUCZBAKULEK; i++)
+            kulki[i] = new Kulka(
+                    lott.nextDouble()*ARENAWIDTH+ARENAX1,
+                    lott.nextDouble()*ARENAHEIGHT+ARENAY1,
+                    lott.nextDouble()*20,
+                    lott.nextDouble()*20);
     }
 
     private void run(GraphicsContext gc) {
         gc.setFill(Color.BLACK);
         gc.fillRect(ARENAX1, ARENAY1, ARENAWIDTH, ARENAHEIGHT);
         for (int i = 0; i < LUCZBAKULEK; i++) {
-            if ((x[i] - R < +ARENAX1) || ((x[i] + R >= ARENAX2))) vx[i] = -vx[i];
-            if ((y[i] - R < +ARENAY1) || ((y[i] + R >= ARENAY2))) vy[i] = -vy[i];
-        }
-
-        for (int i = 0; i < LUCZBAKULEK; i++) {
-            x[i] += vx[i];
-            y[i] += vy[i];
-        }
-
-        for (int i = 0; i < LUCZBAKULEK; i++) {
-            gc.setFill(Color.WHITESMOKE);
-            gc.fillOval(x[i] - R, y[i] - R, 2 * R, 2 * R);
+            kulki[i].checkBoundaryCollision(ARENAX1, ARENAY1, ARENAX2, ARENAY2);
+            kulki[i].update();
+            kulki[i].draw(gc);
         }
     }
 
